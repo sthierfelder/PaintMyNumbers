@@ -35,6 +35,8 @@ public class MainActivity extends Activity{
     int TAKE_PHOTO_CODE = 0;
     String mCurrentPhotoPath;
 
+    boolean mbImageAvailable = false;
+
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -50,7 +52,7 @@ public class MainActivity extends Activity{
         newdir.mkdirs();
 
 
-        // Button listener
+        // Button listener: take a picture
         Button capture = (Button) findViewById(R.id.btnCapture);
         capture.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -74,6 +76,25 @@ public class MainActivity extends Activity{
                 startActivityForResult(cameraIntent, TAKE_PHOTO_CODE);
             }
         });
+
+        // Button listener: analyse
+        capture = (Button) findViewById(R.id.btnAnalyse);
+        capture.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+
+                if(mbImageAvailable){
+
+
+                    Log.d("onClick", "Analyse image " + mCurrentPhotoPath);
+
+
+                }
+
+
+            }
+        });
+
+
     }
 
     private void setPic() {
@@ -142,21 +163,21 @@ public class MainActivity extends Activity{
         if (requestCode == TAKE_PHOTO_CODE && resultCode == RESULT_OK) {
             Log.d("CameraDemo", "Pic saved");
 
-            // TODO show picture
+            // Show picture
             setPic();
+
+            mbImageAvailable = true;
+
+            // Enable analyse button
+            Button myButton = (Button) findViewById(R.id.btnAnalyse);
+            myButton.setEnabled(true);
         }
 
     }
 
 
     // Original Functions
-/*
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-    }
-*/
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
